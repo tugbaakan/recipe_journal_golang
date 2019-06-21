@@ -27,7 +27,7 @@ func readLines(path string) ([]string, error) {
     return lines, scanner.Err()
 }
 
-//To search in the slice
+//To search in a slice
 func contains(slice []string, item string) bool {
     set := make(map[string]struct{}, len(slice))
     for _, s := range slice {
@@ -38,19 +38,22 @@ func contains(slice []string, item string) bool {
     return ok
 }
 
+//Define a new strict for the categories
 type Category struct{
 	ID int
     name string
 	keywords []string
 	ignorewords []string 
-} 
+}
 
+//Define a new struct for the recipes
 type Recipe struct{
 	name string
 	ingredients []string
 	category []string
 } 
 
+//Define a function for the Recipe struct
 func (r *Recipe) setCategory(categories []Category) {
 	// loop for all categories
 	for _, cate := range categories {
@@ -107,53 +110,25 @@ func main(){
         recipes = append ( recipes, rec )
     }
 
-    //input from user
+    // We are going to list the recipes of the categories that the user would like to see
+    //The user will input a number regarding the categories
     fmt.Println("Type the number of the category you wish to be listed")
     for _, item := range categories {
     	fmt.Println( strconv.Itoa(item.ID) + " for " + item.name )
     }
-
-    /*
-    reader := bufio.NewReader(os.Stdin)
-    inp_cate_ID_0, _ := reader.ReadString('\n')
-    inp_cate_ID  , _ := strconv.Atoi(inp_cate_ID_0)
-    fmt.Println(inp_cate_ID_0)
-    fmt.Println(inp_cate_ID)
-
-    s := "97"
-    if n, err := strconv.Atoi(s); err == nil {
-        fmt.Println(n+1)
-    } else {
-        fmt.Println(s, "is not an integer.")
-    }
-    // Output: 98
-    
-    for _, item := range categories {
-    	if item.ID == inp_cate_ID  {
-        	fmt.Println( item.name )
-            for _, item2 := range recipes {
-                for _, item3 := range item2.category {
-                    if item3 == item.name {
-                        fmt.Println( item2.name )
-                        break
-                    }
-                }
-            }
-        }
-    }
-
-    */
-
     var inp_cate_ID int
     fmt.Scan(&inp_cate_ID)
-    fmt.Println("read number", inp_cate_ID, "from stdin")
+	//fmt.Println("read number", inp_cate_ID, "from stdin")
 
+	//loops through the recipes and categories to find the related recipes
     for _, item := range categories{
         if inp_cate_ID == item.ID {
             fmt.Println(item.name)
             for _, item2 := range recipes {
                 for _, item3 := range item2.category {
                     if item3 == item.name {
+                    	//found the recipes
+                    	//print them
                         fmt.Println( item2.name )
                         break
                     }
